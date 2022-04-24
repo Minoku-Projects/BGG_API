@@ -27,16 +27,18 @@ class robo_data():
             #build string for page
             page = BG_PAGES + str(number)
             bgg = requests.get(page)
-            print(bgg.status_code)
-            parsed_xml = EleTree.fromstring(bgg.text)
+            if bgg.status_code == 200:
+                parsed_xml = EleTree.fromstring(bgg.text)
 
-            #every url gets extraxted
-            for x in parsed_xml:
-                #x[0].text = https://boardgamegeek.com/boardgame/21776/jot
-                self.bg_sites.append(x[0].text)
+                #every url gets extraxted
+                for x in parsed_xml:
+                    #x[0].text = https://boardgamegeek.com/boardgame/21776/jot
+                    self.bg_sites.append(x[0].text)
 
-                #we only want ids and append to our attribute
-                self.__split_url_into_id(x[0].text)
+                    #we only want ids and append to our attribute
+                    self.__split_url_into_id(x[0].text)
+            else:
+                print("ERROR: " + str(bgg.status_code) + "Page" + page)
 
     def get_list_sites(self):
         return self.bg_sites
