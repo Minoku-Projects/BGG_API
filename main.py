@@ -18,11 +18,10 @@ class RoboData:
 
     def __init__(self):
         # Max. 15 pages
-        for i in range(15):
-            # range starts with 0 but site starts with 1, so we have to increase
-            number = i + 1
+        for count, i in enumerate(range(15)):
             # build string for page
-            page = BG_PAGES + str(number)
+            page = BG_PAGES + str(count)
+            print(page)
             bgg = requests.get(page)
             if bgg.status_code == 200:
                 parsed_xml = EleTree.fromstring(bgg.text)
